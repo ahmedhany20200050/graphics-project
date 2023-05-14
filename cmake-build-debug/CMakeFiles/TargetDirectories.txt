@@ -1,3 +1,0 @@
-C:/Users/ahmed/OneDrive/Documents/lineAlgorithmBresenham/cmake-build-debug/CMakeFiles/lineAlgorithmBresenham.dir
-C:/Users/ahmed/OneDrive/Documents/lineAlgorithmBresenham/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/ahmed/OneDrive/Documents/lineAlgorithmBresenham/cmake-build-debug/CMakeFiles/rebuild_cache.dir
