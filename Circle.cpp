@@ -84,22 +84,28 @@ void CircleBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
         Draw8Points(hdc,xc,yc,x,y,color);
     }
 }
-void CircleFasterBresenham(HDC hdc,int xc,int yc, int R,COLORREF color) {
-    int x = 0, y = R;
-    int d = 1 - R;
-    int d1 = 3, d2 = 5 - 2 * R;
-    Draw8Points(hdc, xc, yc, x, y, color);
-    while (x < y) {
-        if (d < 0) {
-            d += d1;
-            d1 += 2;
-        } else {
-            d += d2;
-            d2 += 2;
+void CircleFasterBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
+{
+    int x=0,y=R;
+    int d=1-R;
+    int c1=3, c2=5-2*R;
+    Draw8Points(hdc,xc,yc,x,y,color);
+    while(x<y)
+    {
+        if(d<0)
+        {
+            d+=c1;
+            c2+=2;
+        }
+        else
+        {
+            d+=c2;
+            c2+=4;
             y--;
         }
+        c1+=2;
         x++;
-        Draw8Points(hdc, xc, yc, x, y, color);
+        Draw8Points(hdc,xc,yc,x,y,color);
     }
 }
 //// void draw (HDC hdc,int xc,int yc, int R,COLORREF color)
@@ -126,7 +132,7 @@ case WM_RBUTTONDOWN:
 x2=LOWORD(lParam);
 y2=HIWORD(lParam);
 r=sqrt((x2-x11)*(x2-x11)+(y2-y11)*(y2-y11));
-CircleBresenham(hdc,x11,y11,(int)r,RGB(255,0,0));
+CircleFasterBresenham(hdc,x11,y11,(int)r,RGB(255,0,0));
 break;
 case WM_DESTROY:
 PostQuitMessage (0);       /* send a WMQUIT to the message queue*/
