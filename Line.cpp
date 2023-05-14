@@ -279,63 +279,63 @@ void Bresenham(HDC hdc, int xs, int ys, int xe, int ye, COLORREF color) {
 }
 
 // lp is 4 bytes, 2 bytes for x and 2 bytes for y and in new devices is 8 bytes 4 bytes for each x and y
-LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
-    HDC hdc;
-    COLORREF color = RGB(50, 100, 100);
+//LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
+//    HDC hdc;
+//    COLORREF color = RGB(50, 100, 100);
+//
+//    static int x1, y1;
+//
+//    // when you make a left click
+//    if (msg == WM_LBUTTONDOWN) {
+//        // to get x1 and y1 of the point where mouse was clicked
+//        x1 = LOWORD(lp);
+//        y1 = HIWORD(lp);
+//    }
+//
+//        // when you release left click
+//    else if (msg == WM_LBUTTONUP) {
+//        // get the object which is acting like an intermediate between your code and the target window you want to draw on
+//        hdc = GetDC(hWnd);
+//
+//        // (x2, y2) is the end point of my line
+//        int x2, y2;
+//
+//        x2 = LOWORD(lp);
+//        y2 = HIWORD(lp);
+//
+//        // draw line with direct method
+//        Bresenham(hdc, x1, y1, x2, y2, color);
+//
+//        ReleaseDC(hWnd, hdc);
+//    } else if (msg == WM_CLOSE) {
+//        DestroyWindow(hWnd);
+//    } else if (msg == WM_DESTROY) {
+//        PostQuitMessage(0);
+//    } else
+//        return DefWindowProc(hWnd, msg, wp, lp);
+//    return 0;
+//}
 
-    static int x1, y1;
-
-    // when you make a left click
-    if (msg == WM_LBUTTONDOWN) {
-        // to get x1 and y1 of the point where mouse was clicked
-        x1 = LOWORD(lp);
-        y1 = HIWORD(lp);
-    }
-
-        // when you release left click
-    else if (msg == WM_LBUTTONUP) {
-        // get the object which is acting like an intermediate between your code and the target window you want to draw on
-        hdc = GetDC(hWnd);
-
-        // (x2, y2) is the end point of my line
-        int x2, y2;
-
-        x2 = LOWORD(lp);
-        y2 = HIWORD(lp);
-
-        // draw line with direct method
-        Bresenham(hdc, x1, y1, x2, y2, color);
-
-        ReleaseDC(hWnd, hdc);
-    } else if (msg == WM_CLOSE) {
-        DestroyWindow(hWnd);
-    } else if (msg == WM_DESTROY) {
-        PostQuitMessage(0);
-    } else
-        return DefWindowProc(hWnd, msg, wp, lp);
-    return 0;
-}
-
-int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh) {
-    WNDCLASS wc;
-    wc.lpszClassName = "MyClass";
-    wc.lpszMenuName = nullptr;
-    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-    wc.hbrBackground = (HBRUSH) GetStockObject(LTGRAY_BRUSH);
-    wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.lpfnWndProc = WndProc;
-    wc.hInstance = h;
-    RegisterClass(&wc);
-    HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 800, 600, nullptr, nullptr, h, nullptr);
-    ShowWindow(hWnd, csh);
-    UpdateWindow(hWnd);
-    MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0) > 0) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-    return 0;
-}
+//int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh) {
+//    WNDCLASS wc;
+//    wc.lpszClassName = "MyClass";
+//    wc.lpszMenuName = nullptr;
+//    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+//    wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+//    wc.hbrBackground = (HBRUSH) GetStockObject(LTGRAY_BRUSH);
+//    wc.style = CS_HREDRAW | CS_VREDRAW;
+//    wc.cbClsExtra = 0;
+//    wc.cbWndExtra = 0;
+//    wc.lpfnWndProc = WndProc;
+//    wc.hInstance = h;
+//    RegisterClass(&wc);
+//    HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 800, 600, nullptr, nullptr, h, nullptr);
+//    ShowWindow(hWnd, csh);
+//    UpdateWindow(hWnd);
+//    MSG msg;
+//    while (GetMessage(&msg, nullptr, 0, 0) > 0) {
+//        TranslateMessage(&msg);
+//        DispatchMessage(&msg);
+//    }
+//    return 0;
+//}

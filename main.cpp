@@ -8,6 +8,9 @@
 #include <tchar.h>
 #include <windows.h>
 #include "iostream"
+#include "beziar.cpp"
+#include "Circle.cpp"
+#include "2d_transformation.cpp"
 //#include <CommCtrl.h>
 #include <cstring>
 #include<bits/stdc++.h>
@@ -77,77 +80,7 @@ LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 
 /*  Make the class name into a global variable  */
 TCHAR szClassName[ ] = _T("CodeBlocksWindowsApp");
-void simpleDDA(HDC hdc, int xs, int ys, int xe, int ye, COLORREF color) {
-    double dx = xe - xs;
-    double dy = ye - ys;
-    SetPixel(hdc, xs, ys, color);
-    if (abs(dx) >= abs(dy)) {
-        if (xs > xe) {
-            swap(xe, xs);
-            swap(ye, ys);
-            dx = xe - xs;
-            dy = ye - ys;
-        }
-        int x = xs;
-        double y = ys, m = (double) dy / dx;
-        while (x != xe) {
-            x += 1;
-            y += m;
-            SetPixel(hdc, x, round(y), color);
-        }
-    } else {
-        if (ys > ye) {
-            swap(xe, xs);
-            swap(ye, ys);
-            dx = xe - xs;
-            dy = ye - ys;
-        }
-        int y = ys;
-        double x = xs, m = (double) dx / dy;
-        while (y != ye) {
-            x += m;
-            y += 1;
-            SetPixel(hdc, round(x), y, color);
-        }
-    }
-}
-void draw8Points(HDC hdc,int xc,int yc,int x,int y,COLORREF c){
-    SetPixel(hdc,xc+x,yc+y,c);
-    simpleDDA(hdc,xc+x,yc+y,xc,yc,RGB(0,0,255));
-    SetPixel(hdc,xc-x,yc+y,c);
-    SetPixel(hdc,xc-x,yc-y,c);
-    simpleDDA(hdc,xc-x,yc-y,xc,yc,RGB(0,0,255));
-    SetPixel(hdc,xc+x,yc-y,c);
-    SetPixel(hdc,xc+y,yc+x,c);
-    simpleDDA(hdc,xc+y,yc+x,xc,yc,RGB(0,0,255));
-    SetPixel(hdc,xc-y,yc+x,c);
-    SetPixel(hdc,xc-y,yc-x,c);
-    simpleDDA(hdc,xc-y,yc-x,xc,yc,RGB(0,0,255));
-    SetPixel(hdc,xc+y,yc-x,c);
-}
 
-void bezair(HDC hdc,double x1,double y1,double x2,double y2,double x3,double y3,double x4,double y4, COLORREF color)
-{
-    double a,b,c,d,aa,bb,cc,dd;
-    a=-1*x1+3*x2+(-3*x3)+1*x4;
-    b=3*x1+(-6*x2)+3*x3+0*x4;
-    c=-3*x1+3*x2;
-    d=x1;
-    //coefficients for y
-    aa=-1*y1+3*y2+(-3*y3)+1*y4;
-    bb=3*y1+(-6*y2)+3*y3+0*y4;
-    cc=-3*y1+3*y2;
-    dd=y1;
-
-
-    for (double t = 0.000; t <= 1.0; t+=0.001) {
-        double x,y;
-        x=a*(pow(t,3))+b*(t*t)+c*t+d;
-        y=aa*(pow(t,3))+bb*(t*t)+cc*t+dd;
-        SetPixel(hdc,x,y,color);
-    }
-
-}
 int WINAPI WinMain (HINSTANCE hThisInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR lpszArgument,
@@ -261,12 +194,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         // do line drawing things
     }
 
-
-
-
-
-
-
     //combobox things
     switch (message)                  /* handle the messages*/
     {
@@ -308,79 +235,82 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
     return 0;
 }
 
-//
-//
-//#include <vector>
-//using namespace std;
-//class MyPoint
-//{
-//public:
-//    double x, y;
-//    MyPoint(double x=0,double y=0):x(x),y(y){}
-//};
-//typedef vector<MyPoint> PVector;
-//bool InLeft(MyPoint& p, double xleft)
-//{
-//    return p.x >= xleft;
-//}
-//bool InRight(MyPoint& p, double xright)
-//{
-//    return p.x <= xright;
-//}
-//bool InBottom(MyPoint& p, double ybottom)
-//{
-//    return p.y >= ybottom;
-//}
-//bool InTop(MyPoint& p, double ytop)
-//{
-//    return p.y <= ytop;
-//}
-//MyPoint VIntersect(MyPoint& v1, MyPoint& v2, double xedge)
-//{
-//    MyPoint r;
-//    r.x = xedge;
-//    r.y = v1.y + (xedge - v1.x) * (v2.y - v1.y) / (v2.x - v1.x);
-//    return r;
-//}
-//MyPoint HIntersect(MyPoint& v1, MyPoint& v2, double yedge)
-//{
-//    MyPoint r;
-//    r.y = yedge;
-//    r.x = v1.x + (yedge - v1.y) * (v2.x - v1.x) / (v2.y - v1.y);
-//    return r;
-//}
-//PVector ClipWithEdge(PVector& P, double edge,
-//                     bool (*In)(MyPoint&, double),
-//                     MyPoint(*Intersect)(MyPoint&, MyPoint&, double))
-//{
-//    PVector out;
-//    size_t n =  P.size();
-//    MyPoint v1 = P[n - 1];
-//    bool in1 = In(v1, edge);
-//    for (int i = 0;i < n;i++)
-//    {
-//        MyPoint v2 = P[i];
-//        bool in2 = In(v2, edge);
-//        if (in1 && in2)
-//            out.push_back(v2);
-//        else if (in1)
-//            out.push_back(Intersect(v1, v2, edge));
-//        else if (in2)
-//        {
-//            out.push_back(Intersect(v1, v2, edge));
-//            out.push_back(v2);
+/*
+ * these functions were here before including other cpp files
+ * there existence causes overlapping with function in other files so i commented them
+ *
+ *       by Ahmed Hany
+ *
+ */
+
+//void simpleDDA(HDC hdc, int xs, int ys, int xe, int ye, COLORREF color) {
+//    double dx = xe - xs;
+//    double dy = ye - ys;
+//    SetPixel(hdc, xs, ys, color);
+//    if (abs(dx) >= abs(dy)) {
+//        if (xs > xe) {
+//            swap(xe, xs);
+//            swap(ye, ys);
+//            dx = xe - xs;
+//            dy = ye - ys;
 //        }
-//        v1 = v2;
-//        in1 = in2;
+//        int x = xs;
+//        double y = ys, m = (double) dy / dx;
+//        while (x != xe) {
+//            x += 1;
+//            y += m;
+//            SetPixel(hdc, x, round(y), color);
+//        }
+//    } else {
+//        if (ys > ye) {
+//            swap(xe, xs);
+//            swap(ye, ys);
+//            dx = xe - xs;
+//            dy = ye - ys;
+//        }
+//        int y = ys;
+//        double x = xs, m = (double) dx / dy;
+//        while (y != ye) {
+//            x += m;
+//            y += 1;
+//            SetPixel(hdc, round(x), y, color);
+//        }
 //    }
-//    return out;
 //}
-//PVector PolyClip(PVector P, double xleft, double xright,
-//                 double ybottom, double ytop)
+//void draw8Points(HDC hdc,int xc,int yc,int x,int y,COLORREF c){
+//    SetPixel(hdc,xc+x,yc+y,c);
+//    simpleDDA(hdc,xc+x,yc+y,xc,yc,RGB(0,0,255));
+//    SetPixel(hdc,xc-x,yc+y,c);
+//    SetPixel(hdc,xc-x,yc-y,c);
+//    simpleDDA(hdc,xc-x,yc-y,xc,yc,RGB(0,0,255));
+//    SetPixel(hdc,xc+x,yc-y,c);
+//    SetPixel(hdc,xc+y,yc+x,c);
+//    simpleDDA(hdc,xc+y,yc+x,xc,yc,RGB(0,0,255));
+//    SetPixel(hdc,xc-y,yc+x,c);
+//    SetPixel(hdc,xc-y,yc-x,c);
+//    simpleDDA(hdc,xc-y,yc-x,xc,yc,RGB(0,0,255));
+//    SetPixel(hdc,xc+y,yc-x,c);
+//}
+
+//void bezair(HDC hdc,double x1,double y1,double x2,double y2,double x3,double y3,double x4,double y4, COLORREF color)
 //{
-//    PVector out;
-//    out=ClipWithEdge(P, xleft, InLeft, VIntersect);
-//    out=ClipWithEdge(out, xright, InRight, VIntersect);
-//    out=ClipWithEdge(out, ybottom, InBottom, HIntersect);
-//    return ClipWithEdge(out, ytop, InTop, HIntersect);
+//    double a,b,c,d,aa,bb,cc,dd;
+//    a=-1*x1+3*x2+(-3*x3)+1*x4;
+//    b=3*x1+(-6*x2)+3*x3+0*x4;
+//    c=-3*x1+3*x2;
+//    d=x1;
+//    //coefficients for y
+//    aa=-1*y1+3*y2+(-3*y3)+1*y4;
+//    bb=3*y1+(-6*y2)+3*y3+0*y4;
+//    cc=-3*y1+3*y2;
+//    dd=y1;
+//
+//
+//    for (double t = 0.000; t <= 1.0; t+=0.001) {
+//        double x,y;
+//        x=a*(pow(t,3))+b*(t*t)+c*t+d;
+//        y=aa*(pow(t,3))+bb*(t*t)+cc*t+dd;
+//        SetPixel(hdc,x,y,color);
+//    }
+//
 //}

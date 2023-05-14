@@ -1,12 +1,8 @@
-#if defined(UNICODE) && !defined(_UNICODE)
-    #define _UNICODE
-#elif defined(_UNICODE) && !defined(UNICODE)
-    #define UNICODE
-#endif
 
 #include <tchar.h>
 #include <windows.h>
 #include<bits/stdc++.h>
+#include "line.cpp"
 using namespace std;
 
 

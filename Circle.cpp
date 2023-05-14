@@ -65,7 +65,7 @@ void CircleIterativePolar(HDC hdc,int xc,int yc, int R,COLORREF color)
     }
 }
 
-
+//midpoint
 void CircleBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
 {
     int x=0,y=R;
@@ -84,6 +84,7 @@ void CircleBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
         Draw8Points(hdc,xc,yc,x,y,color);
     }
 }
+//modified midpoint
 void CircleFasterBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
 {
     int x=0,y=R;
@@ -117,54 +118,54 @@ void CircleFasterBresenham(HDC hdc,int xc,int yc, int R,COLORREF color)
 //        SetPixel(hdc, myRound(x), myRound(y), color);
 //    }
 //}
-LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-static int x11,y11,x2,y2 ;
-static double r ;
-HDC hdc=GetDC(hwnd);
-switch (message)                  /* handle the messages*/
-{
-case WM_LBUTTONDOWN:
-x11=LOWORD(lParam);
-y11=HIWORD(lParam);
-break;
-case WM_RBUTTONDOWN:
-x2=LOWORD(lParam);
-y2=HIWORD(lParam);
-r=sqrt((x2-x11)*(x2-x11)+(y2-y11)*(y2-y11));
-CircleFasterBresenham(hdc,x11,y11,(int)r,RGB(255,0,0));
-break;
-case WM_DESTROY:
-PostQuitMessage (0);       /* send a WMQUIT to the message queue*/
-break;
-default:                      /* for messages that we don't deal with*/
-return DefWindowProc (hwnd, message, wParam, lParam);
-}
+//LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//static int x11,y11,x2,y2 ;
+//static double r ;
+//HDC hdc=GetDC(hwnd);
+//switch (message)                  /* handle the messages*/
+//{
+//case WM_LBUTTONDOWN:
+//x11=LOWORD(lParam);
+//y11=HIWORD(lParam);
+//break;
+//case WM_RBUTTONDOWN:
+//x2=LOWORD(lParam);
+//y2=HIWORD(lParam);
+//r=sqrt((x2-x11)*(x2-x11)+(y2-y11)*(y2-y11));
+//CircleFasterBresenham(hdc,x11,y11,(int)r,RGB(255,0,0));
+//break;
+//case WM_DESTROY:
+//PostQuitMessage (0);       /* send a WMQUIT to the message queue*/
+//break;
+//default:                      /* for messages that we don't deal with*/
+//return DefWindowProc (hwnd, message, wParam, lParam);
+//}
+//
+//return 0;
+//}
 
-return 0;
-}
-
-
-int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh) {
-WNDCLASS wc;
-wc.lpszClassName = "MyClass";
-wc.lpszMenuName = nullptr;
-wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-wc.hbrBackground = (HBRUSH) GetStockObject(LTGRAY_BRUSH);
-wc.style = CS_HREDRAW | CS_VREDRAW;
-wc.cbClsExtra = 0;
-wc.cbWndExtra = 0;
-wc.lpfnWndProc = WindowProcedure;
-wc.hInstance = h;
-RegisterClass(&wc);
-HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 800, 600, nullptr, nullptr, h, nullptr);
-ShowWindow(hWnd, csh);
-UpdateWindow(hWnd);
-MSG msg;
-while (GetMessage(&msg, nullptr, 0, 0) > 0) {
-TranslateMessage(&msg);
-DispatchMessage(&msg);
-}
-return 0;
-}
+//
+//int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh) {
+//WNDCLASS wc;
+//wc.lpszClassName = "MyClass";
+//wc.lpszMenuName = nullptr;
+//wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+//wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+//wc.hbrBackground = (HBRUSH) GetStockObject(LTGRAY_BRUSH);
+//wc.style = CS_HREDRAW | CS_VREDRAW;
+//wc.cbClsExtra = 0;
+//wc.cbWndExtra = 0;
+//wc.lpfnWndProc = WindowProcedure;
+//wc.hInstance = h;
+//RegisterClass(&wc);
+//HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 800, 600, nullptr, nullptr, h, nullptr);
+//ShowWindow(hWnd, csh);
+//UpdateWindow(hWnd);
+//MSG msg;
+//while (GetMessage(&msg, nullptr, 0, 0) > 0) {
+//TranslateMessage(&msg);
+//DispatchMessage(&msg);
+//}
+//return 0;
+//}
