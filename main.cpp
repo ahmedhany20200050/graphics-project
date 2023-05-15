@@ -8,72 +8,25 @@
 #include <tchar.h>
 #include <windows.h>
 #include "iostream"
-#include "beziar.cpp"
-#include "Circle.cpp"
-#include "2d_transformation.cpp"
-//#include <CommCtrl.h>
+#include "beziar.h"
+#include "Circle.h"
+#include "2d_transformation.h"
 #include <cstring>
 #include<bits/stdc++.h>
 #include <dshow.h>
-//#include <windowsx.h>
-//#include <QComboBox>
-//#include <QStringList>
+#include <unistd.h>
+#include "Line.h"
+#include "Circle.h"
+#include "lineClippingRectangle.h"
+#include "lineClippingSquare.h"
+#include "pointClippingRectangle.h"
+#include "pointClippingSquare.h"
+#include "polygonClipping.h"
 using namespace std;
-union OutCode{
-  unsigned All: 4;
-  struct{
-      unsigned left:1,top:1,right:1,bottom:1;
-  };
-};
-OutCode GetOutCode(double x,double y,int xleft,int ytop,int xright,int ybottom){
-    OutCode out;
-    out.All=0;
-    if(x<xleft)out.left=1;else if(x>xright)out.right=1;
-    if(y<ytop)out.top=1;else if(y>ybottom)out.bottom=1;
-    return  out;
-}
-void VIntersect(double xs,double ys,double xe,double ye,int x,double*xi,double *yi){
-    *xi=x;
-    *yi=ys+(x-xs)*(ye-ys)/(xe-xs);
-}
-void HIntersect(double xs,double ys,double xe,double ye,int y,double*xi,double *yi){
-    *yi=y;
-    *xi=xs+(y-ys)*(xe-xs)/(ye-ys);
-}
 
-void CohenSuth(HDC hdc,int xs,int ys,int xe,int ye,int xleft,int ytop,int xright,int ybottom){
-    double x1=xs,y1=ys,x2=xe,y2=ye;
-    OutCode out1=GetOutCode(x1,y1,xleft,ytop,xright,ybottom);
-    OutCode out2=GetOutCode(x2,y2,xleft,ytop,xright,ybottom);
-    while( (out1.All || out2.All) && !(out1.All & out2.All))
-    {
-        double xi,yi;
-        if(out1.All)
-        {
-            if(out1.left)VIntersect(x1,y1,x2,y2,xleft,&xi,&yi);
-            else if(out1.top)HIntersect(x1,y1,x2,y2,ytop,&xi,&yi);
-            else if(out1.right)VIntersect(x1,y1,x2,y2,xright,&xi,&yi);
-            else HIntersect(x1,y1,x2,y2,ybottom,&xi,&yi);
-            x1=xi;
-            y1=yi;
-            out1=GetOutCode(x1,y1,xleft,ytop,xright,ybottom);
-        } else
-        {
-            if(out2.left)VIntersect(x1,y1,x2,y2,xleft,&xi,&yi);
-            else if(out2.top)HIntersect(x1,y1,x2,y2,ytop,&xi,&yi);
-            else if(out2.right)VIntersect(x1,y1,x2,y2,xright,&xi,&yi);
-            else HIntersect(x1,y1,x2,y2,ybottom,&xi,&yi);
-            x2=xi;
-            y2=yi;
-            out2=GetOutCode(x2,y2,xleft,ytop,xright,ybottom);
-        }
-    }
-    if(!out1.All && !out2.All)
-    {
-        MoveToEx(hdc,round(x1),round(y1),NULL);
-        LineTo(hdc,round(x2),round(y2));
-    }
-}
+
+
+
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -147,52 +100,301 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 
 
 /*  This function is called by the Windows function DispatchMessage()  */
-static int x11,x2,x3,x4;
-static int y11,y2,y3,y4,counter=0;
+static int x,x2,x3,x4;
+static int y,y2,y3,y4,counter=0;
 static int xfirst,xend,yfirst,yend;
 static string choice="none";
+static int lineBeginX,lineBeginY,lineEndX,lineEndY;
+static COLORREF mainColor= RGB(0,0,255);
+static bool isChanged= false;
+static int xleft,ytop,ybottom,xright;
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
-    //x2 +y2 =r2
+
     HDC hdc=GetDC(hwnd);
     //we go depending on choice
-    if(choice=="fucking bezier"){
-        switch(message){
-            case WM_LBUTTONDOWN:
+    switch (message) {
+        case WM_LBUTTONDOWN:
+            if(isChanged){
+                char  *s= (char*) malloc(sizeof(char));
+                GetWindowTextA(GetDlgItem(hwnd, 100),s,55);
+                string ss;
+                cout<<"we are good\n";
+                for (int i = 0; i < 55; ++i) {
+                    cout<<s[i];
+                    if(s[i]=='\0')break;
+                    ss+=s[i];
+                }
+                cout<<"\n";
+                choice=ss;
+                isChanged= false;
+            }
+            if(choice=="bezier"){
                 if(counter==0){
-                    x11= LOWORD(lParam);
-                    y11= HIWORD(lParam);
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
                     counter++;
-                } else if(counter==1){
+                }else if(counter==1){
                     x2= LOWORD(lParam);
                     y2= HIWORD(lParam);
-                    x3=x2;
-                    y3=y2+50;
-                    x4=x11;
-                    y4=y11+50;
-                    simpleDDA(hdc,x11,y11,x2,y2,RGB(255,0,0));
-                    simpleDDA(hdc,x2,y2,x3,y4,RGB(255,0,0));
-                    simpleDDA(hdc,x3,y3,x4,y4,RGB(255,0,0));
-                    simpleDDA(hdc,x4,y4,x11,y11,RGB(255,0,0));
                     counter++;
                 }else if(counter==2){
-                    xfirst= LOWORD(lParam);
-                    yfirst= HIWORD(lParam);
+                    x3= LOWORD(lParam);
+                    y3= HIWORD(lParam);
                     counter++;
                 }else if(counter==3){
-                    xend= LOWORD(lParam);
-                    yend= HIWORD(lParam);
-                    CohenSuth( hdc, xfirst, yfirst, xend, yend,x11, y11, x2, y11+50);
+                    x4= LOWORD(lParam);
+                    y4= HIWORD(lParam);
+                    bezair(hdc,x,y,x2,y2,x3,y3,x4,y4,mainColor);
                     counter=0;
                 }
 
-                break;
-        }
-
-    } else if(choice=="dda line"){
-        // do line drawing things
+            } else if(choice=="line dda"){
+                cout<<"inside line dda\n";
+                if(counter==0){
+                    lineBeginX= LOWORD(lParam);
+                    lineBeginY= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    lineEndX= LOWORD(lParam);
+                    lineEndY= HIWORD(lParam);
+                    simpleDDA(hdc,lineBeginX,lineBeginY,lineEndX,lineEndY,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="line midpoint"){
+                cout<<"inside line midpoint\n";
+                if(counter==0){
+                    lineBeginX= LOWORD(lParam);
+                    lineBeginY= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    lineEndX= LOWORD(lParam);
+                    lineEndY= HIWORD(lParam);
+                    Bresenham(hdc,lineBeginX,lineBeginY,lineEndX,lineEndY,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="line parametric"){
+                cout<<"inside line parametric\n";
+                if(counter==0){
+                    lineBeginX= LOWORD(lParam);
+                    lineBeginY= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    lineEndX= LOWORD(lParam);
+                    lineEndY= HIWORD(lParam);
+                    directMethod1(hdc,lineBeginX,lineBeginY,lineEndX,lineEndY,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="circle direct"){
+                cout<<"inside circle direct\n";
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                    CircleDirect(hdc,x,y,r,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="circle polar"){
+                cout<<"inside circle polar\n";
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                    CirclePolar(hdc,x,y,r,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="circle iterative polar"){
+                cout<<"inside circle iterative polar\n";
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                    CircleIterativePolar(hdc,x,y,r,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="circle midpoint"){
+                cout<<"inside circle midpoint\n";
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                    CircleBresenham(hdc,x,y,r,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="circle modified midpoint"){
+                cout<<"inside circle modified midpoint\n";
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                    CircleBresenham(hdc,x,y,r,mainColor);
+                    counter=0;
+                }
+            }else if(choice== "lineClippingRectangle"){
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    xleft=x,ytop=y,ybottom=y+40,xright=x+100;
+                    simpleDDA(hdc,xleft,ytop,xleft,ybottom,mainColor);
+                    simpleDDA(hdc,xleft,ytop,xright,ytop,mainColor);
+                    simpleDDA(hdc,xleft,ybottom,xright,ybottom,mainColor);
+                    simpleDDA(hdc,xright,ytop,xright,ybottom,mainColor);
+                    counter++;
+                }else if(counter==1){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==2){
+                    int xx= LOWORD(lParam);
+                    int yy= HIWORD(lParam);
+                    CohenSuth(hdc,x,y,xx,yy,xleft,ytop,xright,ybottom);
+                    counter=0;
+                }
+            }else if(choice== "lineClippingSquare"){
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    xleft=x,ytop=y,ybottom=y+100,xright=x+100;
+                    simpleDDA(hdc,xleft,ytop,xleft,ybottom,mainColor);
+                    simpleDDA(hdc,xleft,ytop,xright,ytop,mainColor);
+                    simpleDDA(hdc,xleft,ybottom,xright,ybottom,mainColor);
+                    simpleDDA(hdc,xright,ytop,xright,ybottom,mainColor);
+                    counter++;
+                }else if(counter==1){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    counter++;
+                }else if(counter==2){
+                    int xx= LOWORD(lParam);
+                    int yy= HIWORD(lParam);
+                    CohenSuth(hdc,x,y,xx,yy,xleft,ytop,xright,ybottom);
+                    counter=0;
+                }
+            }else if(choice== "pointClippingRectangle"){
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    xleft=x,ytop=y,ybottom=y+30,xright=x+50;
+                    simpleDDA(hdc,xleft,ytop,xleft,ybottom,mainColor);
+                    simpleDDA(hdc,xleft,ytop,xright,ytop,mainColor);
+                    simpleDDA(hdc,xleft,ybottom,xright,ybottom,mainColor);
+                    simpleDDA(hdc,xright,ytop,xright,ybottom,mainColor);
+                    counter++;
+                }else if(counter==1){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    pointClippingRectangle(hdc,x,y,xleft,ytop,xright,ybottom,mainColor);
+                    counter=0;
+                }
+            }else if(choice== "pointClippingSquare"){
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    xleft=x,ytop=y,ybottom=y+60,xright=x+60;
+                    simpleDDA(hdc,xleft,ytop,xleft,ybottom,mainColor);
+                    simpleDDA(hdc,xleft,ytop,xright,ytop,mainColor);
+                    simpleDDA(hdc,xleft,ybottom,xright,ybottom,mainColor);
+                    simpleDDA(hdc,xright,ytop,xright,ybottom,mainColor);
+                    counter++;
+                }else if(counter==1){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    pointClippingRectangle(hdc,x,y,xleft,ytop,xright,ybottom,mainColor);
+                    counter=0;
+                }
+            }else if(choice== "polygonClipping"){
+                if(counter==0){
+                    x= LOWORD(lParam);
+                    y= HIWORD(lParam);
+                    xleft=x,ytop=y,ybottom=y+40,xright=x+70;
+                    simpleDDA(hdc,xleft,ytop,xleft,ybottom,mainColor);
+                    simpleDDA(hdc,xleft,ytop,xright,ytop,mainColor);
+                    simpleDDA(hdc,xleft,ybottom,xright,ybottom,mainColor);
+                    simpleDDA(hdc,xright,ytop,xright,ybottom,mainColor);
+                    counter++;
+                }else if(counter==1){
+                    x2= LOWORD(lParam);
+                    y2= HIWORD(lParam);
+                    counter++;
+                }else if(counter==2){
+                    x3= LOWORD(lParam);
+                    y3= HIWORD(lParam);
+                    counter++;
+                }else if(counter==3){
+                    x4= LOWORD(lParam);
+                    y4= HIWORD(lParam);
+                    counter++;
+                }else if(counter==4){
+                    int x5= LOWORD(lParam);
+                    int y5= HIWORD(lParam);
+                    vector<vertex>v;
+                    v.emplace_back(x,y);
+                    v.emplace_back(x2,y2);
+                    v.emplace_back(x3,y3);
+                    v.emplace_back(x4,y4);
+                    v.emplace_back(x5,y5);
+                    polyGonClipping(hdc,v,xleft,ytop,xright,ybottom,mainColor);
+                    counter=0;
+                }
+            }else if(choice=="translate line"){
+                cout<<"Inside translate line\n";
+                cout<<"enter x translate"<<endl;
+                cin>>x;
+                cout<<"enter y translate"<<endl;
+                cin>>y;
+                pair<int,int>beginOfLine={lineBeginX,lineBeginY};
+                pair<int,int>endOfLine={lineEndX,lineEndY};
+                vector<pair<int,int>>points={beginOfLine,endOfLine};
+                vector<pair<int,int>> newPoints=translateLine(points,x,y);
+                simpleDDA(hdc,newPoints[0].first,newPoints[0].second,newPoints[1].first,newPoints[1].second,mainColor);
+                sleep(5);
+            }else if(choice=="scale line"){
+                cout<<"enter x scale"<<endl;
+                cin>>x;
+                cout<<"enter y scale"<<endl;
+                cin>>y;
+                pair<int,int>beginOfLine={lineBeginX,lineBeginY};
+                pair<int,int>endOfLine={lineEndX,lineEndY};
+                vector<pair<int,int>>points={beginOfLine,endOfLine};
+                vector<pair<int,int>> newPoints=scaleLine({{lineBeginX,lineBeginY},{lineEndX,lineEndY}},x,y);
+                cout<<newPoints[0].first<<"  "<<"  "<< newPoints[0].second<<"  "<<newPoints[1].first<<"  "<<newPoints[1].second<<endl;
+                simpleDDA(hdc,newPoints[0].first,newPoints[0].second,newPoints[1].first,newPoints[1].second,mainColor);
+                sleep(5);
+            }else if(choice=="use red"){
+                cout<<"color is now red"<<endl;
+                mainColor= RGB(255,0,0);
+            }else if(choice=="use green"){
+                cout<<"color is now green"<<endl;
+                mainColor= RGB(0,255,0);
+            }else if(choice=="use blue"){
+                cout<<"color is now blue"<<endl;
+                mainColor= RGB(0,0,255);
+            }
+            break;
     }
+
+
 
     //combobox things
     switch (message)                  /* handle the messages*/
@@ -201,27 +403,38 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         case WM_CREATE:
             CreateWindowEx(WS_EX_STATICEDGE, "COMBOBOX", "MyCombo1",
                            CBS_DROPDOWN | WS_CHILD | WS_VISIBLE,
-                           0, 0, 200, 200, hwnd, reinterpret_cast<HMENU>(100), reinterpret_cast<HINSTANCE>(hwnd), NULL); // 100 = ID of this control
-            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"fucking bezier");
-            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"fucking nigga");
-            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"fucking hermit");
+                           0, 0, 300, 800, hwnd, reinterpret_cast<HMENU>(100), reinterpret_cast<HINSTANCE>(hwnd), NULL); // 100 = ID of this control;
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"bezier");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"line dda");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"line midpoint");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"line parametric");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"circle direct");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"circle polar");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"circle iterative polar");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"circle midpoint");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"circle modified midpoint");
+            //todo: add filling shapes
+            //todo: add filling algorithms
+            //todo: add ellipse
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"lineClippingRectangle");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"lineClippingSquare");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"pointClippingRectangle");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"pointClippingSquare");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"polygonClipping");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"translate line");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"scale line");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"use red");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"use green");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"use blue");
+
 
 
             break;
         case WM_COMMAND:
             if(HIWORD(wParam)== CBN_CLOSEUP){
+                isChanged= true;
                 counter=0;
-                char  *s= (char*) malloc(sizeof(char));
-                GetWindowTextA(GetDlgItem(hwnd, 100),s,55);
-                string ss;
-                cout<<"we are good\n";
-                for (int i = 0; i < 20; ++i) {
-                    cout<<s[i];
-                    if(s[i]=='\0')break;
-                    ss+=s[i];
-                }
-                cout<<"\n";
-                choice=ss;
+
             }
 
         break;
