@@ -16,5 +16,7 @@ public:
 void performRecursiveFloodFillAlgorithm(HDC hdc,int x,int y,COLORREF borderColor,COLORREF fillColor);
 void performNonRecursiveFloodFillAlgorithm(HDC hdc,int x,int y,COLORREF borderColor,COLORREF fillColor);
 void performConvexFilling(HDC hdc,Point points[],int n, COLORREF c);
-
+void performGeneralPolygonFilling(HDC hdc,Point points[],int n,COLORREF c);
+void fillTheCircleWithLines(HDC hdc,int xCenter,int yCenter,int radius,int fillingQuarter,COLORREF color);
+void fillTheCircleWithCircles(HDC hdc,int xCenter,int yCenter,int radius,int fillingQuarter,COLORREF color);
 #endif //GRAPHICS_PROJECT_FILLING_H

@@ -152,6 +152,30 @@ lineAlgorithmBresenham/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.s
 .PHONY : 2d_transformation.cpp.s
 
+includes/filling/filling.obj: includes/filling/filling.cpp.obj
+.PHONY : includes/filling/filling.obj
+
+# target to build an object file
+includes/filling/filling.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj
+.PHONY : includes/filling/filling.cpp.obj
+
+includes/filling/filling.i: includes/filling/filling.cpp.i
+.PHONY : includes/filling/filling.i
+
+# target to preprocess a source file
+includes/filling/filling.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.i
+.PHONY : includes/filling/filling.cpp.i
+
+includes/filling/filling.s: includes/filling/filling.cpp.s
+.PHONY : includes/filling/filling.s
+
+# target to generate assembly for a file
+includes/filling/filling.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.s
+.PHONY : includes/filling/filling.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -188,6 +212,9 @@ help:
 	@echo ... 2d_transformation.obj
 	@echo ... 2d_transformation.i
 	@echo ... 2d_transformation.s
+	@echo ... includes/filling/filling.obj
+	@echo ... includes/filling/filling.i
+	@echo ... includes/filling/filling.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
