@@ -85,6 +85,12 @@
 		<Unit filename="E:/important/github_test/graphics-project/2d_transformation.cpp">
 			<Option target="lineAlgorithmBresenham"/>
 		</Unit>
+		<Unit filename="E:/important/github_test/graphics-project/includes/filling/filling.cpp">
+			<Option target="lineAlgorithmBresenham"/>
+		</Unit>
+		<Unit filename="E:/important/github_test/graphics-project/includes/filling/filling.h">
+			<Option target="lineAlgorithmBresenham"/>
+		</Unit>
 		<Unit filename="E:/important/github_test/graphics-project/main.cpp">
 			<Option target="lineAlgorithmBresenham"/>
 		</Unit>
