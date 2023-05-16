@@ -1,0 +1,79 @@
+nonconvex and convex:-
+
+Point points[7]
+points[counter-1].x = LOWORD(lParam);
+            points[counter-1].y = HIWORD(lParam);
+            if(counter==7){
+                performGeneralPolygonFilling(hdc,points,7,RGB(0,0,255));
+                // Or
+                performConvexFilling(hdc,points,7,RGB(0,0,255));
+                counter=1;
+            }else{counter++;}
+
+
+recursive and nonresursive flood fill:-
+
+            if(counter==1){
+              x11 = LOWORD(lParam);
+                y11 = HIWORD(lParam);
+               counter++;
+           }else if(counter==2){
+               x22 = LOWORD(lParam);
+               y22 = HIWORD(lParam);
+               radius = sqrt(pow(abs(x11 - x22), 2) + pow(abs(y11 - y22), 2));
+               CircleFasterBresenham(hdc,x11,y11,(int)radius,RGB(0,0,255));
+               counter++;
+          }else if(counter==3){
+               x22 = LOWORD(lParam);
+               y22 = HIWORD(lParam);
+               performRecursiveFloodFillAlgorithm(hdc,x22,y22,RGB(0,0,255),RGB(0,255,0));
+               // Or
+               performNonRecursiveFloodFillAlgorithm(hdc,x22,y22,RGB(0,0,255),RGB(0,255,0));
+              counter=1;
+            }
+
+Rectangle and square :-
+           x11 = LOWORD(lParam);
+           y11 = HIWORD(lParam);
+           drawRectangleWithBezier(hdc,x11,y11,RGB(0,0,255));
+            // Or
+            drawSquareWithHermit(hdc,x11,y11,RGB(0,0,255));
+
+circle with lines and circle with circles :-
+int fillingQuarter;
+if(counter==1){
+                x11 = LOWORD(lParam);
+                y11 = HIWORD(lParam);
+                counter++;
+            }else if(counter==2){
+                x22 = LOWORD(lParam);
+                y22 = HIWORD(lParam);
+                radius = sqrt(pow(abs(x11 - x22), 2) + pow(abs(y11 - y22), 2));
+                CircleFasterBresenham(hdc,x11,y11,(int)radius,RGB(0,0,255));
+                simpleDDA(hdc,x11+(int)radius,y11,x11-(int)radius,y11,RGB(0,0,255));
+                simpleDDA(hdc,x11,y11-(int)radius,x11,y11+(int)radius,RGB(0,0,255));
+                counter++;
+            }else if(counter>=3){
+                x22 = LOWORD(lParam);
+                y22 = HIWORD(lParam);
+                if(x22>x11 && x22<(x11+(int)radius) && y22<y11 && y22>y11-(int)radius){
+                    fillingQuarter=1;
+                    counter++;
+                }else if(x22>(x11-(int)radius) && x22<x11 && y22 <y11 && y22>(y11-(int)radius)){
+                    fillingQuarter=2;
+                    counter++;
+                }else if(x22>(x11-(int)radius) && x22<x11 && y22>y11 && y22<(y11+(int)radius)){
+                    fillingQuarter=3;
+                    counter++;
+                }else if(x22>x11 && x22<(x11+(int)radius) && y22>y11 && y22<(y11+(int)radius)){
+                   fillingQuarter=4;
+                    counter++;
+                }else{
+                    counter=1;
+                }
+                if(counter!=1){
+                    fillTheCircleWithLines(hdc,x11,y11, (int)radius,fillingQuarter,RGB(0,0,225));
+                      // Or
+                    fillTheCircleWithCircles(hdc,x11,y11, (int)radius,fillingQuarter,RGB(0,0,225));
+                }
+           }
