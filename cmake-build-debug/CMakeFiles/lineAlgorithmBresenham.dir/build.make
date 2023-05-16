@@ -82,24 +82,10 @@ CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.s"
 	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\important\github_test\graphics-project\main.cpp -o CMakeFiles\lineAlgorithmBresenham.dir\main.cpp.s
 
-CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/flags.make
-CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj: E:/important/github_test/graphics-project/2d_transformation.cpp
-CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\important\github_test\graphics-project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj -MF CMakeFiles\lineAlgorithmBresenham.dir\2d_transformation.cpp.obj.d -o CMakeFiles\lineAlgorithmBresenham.dir\2d_transformation.cpp.obj -c E:\important\github_test\graphics-project\2d_transformation.cpp
-
-CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\important\github_test\graphics-project\2d_transformation.cpp > CMakeFiles\lineAlgorithmBresenham.dir\2d_transformation.cpp.i
-
-CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\important\github_test\graphics-project\2d_transformation.cpp -o CMakeFiles\lineAlgorithmBresenham.dir\2d_transformation.cpp.s
-
 CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/flags.make
 CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj: E:/important/github_test/graphics-project/includes/filling/filling.cpp
 CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\important\github_test\graphics-project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\important\github_test\graphics-project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj"
 	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj -MF CMakeFiles\lineAlgorithmBresenham.dir\includes\filling\filling.cpp.obj.d -o CMakeFiles\lineAlgorithmBresenham.dir\includes\filling\filling.cpp.obj -c E:\important\github_test\graphics-project\includes\filling\filling.cpp
 
 CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.i: cmake_force
@@ -110,18 +96,32 @@ CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.s: cmake_forc
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.s"
 	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\important\github_test\graphics-project\includes\filling\filling.cpp -o CMakeFiles\lineAlgorithmBresenham.dir\includes\filling\filling.cpp.s
 
+CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/flags.make
+CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj: E:/important/github_test/graphics-project/includes/hermit/hermit.cpp
+CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj: CMakeFiles/lineAlgorithmBresenham.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\important\github_test\graphics-project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj -MF CMakeFiles\lineAlgorithmBresenham.dir\includes\hermit\hermit.cpp.obj.d -o CMakeFiles\lineAlgorithmBresenham.dir\includes\hermit\hermit.cpp.obj -c E:\important\github_test\graphics-project\includes\hermit\hermit.cpp
+
+CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.i"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\important\github_test\graphics-project\includes\hermit\hermit.cpp > CMakeFiles\lineAlgorithmBresenham.dir\includes\hermit\hermit.cpp.i
+
+CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.s"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\important\github_test\graphics-project\includes\hermit\hermit.cpp -o CMakeFiles\lineAlgorithmBresenham.dir\includes\hermit\hermit.cpp.s
+
 # Object files for target lineAlgorithmBresenham
 lineAlgorithmBresenham_OBJECTS = \
 "CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.obj" \
-"CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj" \
-"CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj"
+"CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj" \
+"CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj"
 
 # External object files for target lineAlgorithmBresenham
 lineAlgorithmBresenham_EXTERNAL_OBJECTS =
 
 lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.obj
-lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj
 lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj
+lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj
 lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/build.make
 lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/linklibs.rsp
 lineAlgorithmBresenham.exe: CMakeFiles/lineAlgorithmBresenham.dir/objects1.rsp

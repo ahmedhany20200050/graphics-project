@@ -82,13 +82,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="E:/important/github_test/graphics-project/2d_transformation.cpp">
+		<Unit filename="E:/important/computer_graphics/Line.h">
 			<Option target="lineAlgorithmBresenham"/>
 		</Unit>
 		<Unit filename="E:/important/github_test/graphics-project/includes/filling/filling.cpp">
 			<Option target="lineAlgorithmBresenham"/>
 		</Unit>
 		<Unit filename="E:/important/github_test/graphics-project/includes/filling/filling.h">
+			<Option target="lineAlgorithmBresenham"/>
+		</Unit>
+		<Unit filename="E:/important/github_test/graphics-project/includes/hermit/hermit.cpp">
+			<Option target="lineAlgorithmBresenham"/>
+		</Unit>
+		<Unit filename="E:/important/github_test/graphics-project/includes/hermit/hermit.h">
 			<Option target="lineAlgorithmBresenham"/>
 		</Unit>
 		<Unit filename="E:/important/github_test/graphics-project/main.cpp">

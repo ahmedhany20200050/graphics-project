@@ -128,30 +128,6 @@ lineAlgorithmBresenham/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/build
 .PHONY : lineAlgorithmBresenham/fast
 
-2d_transformation.obj: 2d_transformation.cpp.obj
-.PHONY : 2d_transformation.obj
-
-# target to build an object file
-2d_transformation.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj
-.PHONY : 2d_transformation.cpp.obj
-
-2d_transformation.i: 2d_transformation.cpp.i
-.PHONY : 2d_transformation.i
-
-# target to preprocess a source file
-2d_transformation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.i
-.PHONY : 2d_transformation.cpp.i
-
-2d_transformation.s: 2d_transformation.cpp.s
-.PHONY : 2d_transformation.s
-
-# target to generate assembly for a file
-2d_transformation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.s
-.PHONY : 2d_transformation.cpp.s
-
 includes/filling/filling.obj: includes/filling/filling.cpp.obj
 .PHONY : includes/filling/filling.obj
 
@@ -175,6 +151,30 @@ includes/filling/filling.s: includes/filling/filling.cpp.s
 includes/filling/filling.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.s
 .PHONY : includes/filling/filling.cpp.s
+
+includes/hermit/hermit.obj: includes/hermit/hermit.cpp.obj
+.PHONY : includes/hermit/hermit.obj
+
+# target to build an object file
+includes/hermit/hermit.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj
+.PHONY : includes/hermit/hermit.cpp.obj
+
+includes/hermit/hermit.i: includes/hermit/hermit.cpp.i
+.PHONY : includes/hermit/hermit.i
+
+# target to preprocess a source file
+includes/hermit/hermit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.i
+.PHONY : includes/hermit/hermit.cpp.i
+
+includes/hermit/hermit.s: includes/hermit/hermit.cpp.s
+.PHONY : includes/hermit/hermit.s
+
+# target to generate assembly for a file
+includes/hermit/hermit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\lineAlgorithmBresenham.dir\build.make CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.s
+.PHONY : includes/hermit/hermit.cpp.s
 
 main.obj: main.cpp.obj
 .PHONY : main.obj
@@ -209,12 +209,12 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... lineAlgorithmBresenham
-	@echo ... 2d_transformation.obj
-	@echo ... 2d_transformation.i
-	@echo ... 2d_transformation.s
 	@echo ... includes/filling/filling.obj
 	@echo ... includes/filling/filling.i
 	@echo ... includes/filling/filling.s
+	@echo ... includes/hermit/hermit.obj
+	@echo ... includes/hermit/hermit.i
+	@echo ... includes/hermit/hermit.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

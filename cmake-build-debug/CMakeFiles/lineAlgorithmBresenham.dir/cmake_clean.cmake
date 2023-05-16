@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj"
-  "CMakeFiles/lineAlgorithmBresenham.dir/2d_transformation.cpp.obj.d"
   "CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj"
   "CMakeFiles/lineAlgorithmBresenham.dir/includes/filling/filling.cpp.obj.d"
+  "CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj"
+  "CMakeFiles/lineAlgorithmBresenham.dir/includes/hermit/hermit.cpp.obj.d"
   "CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.obj"
   "CMakeFiles/lineAlgorithmBresenham.dir/main.cpp.obj.d"
   "liblineAlgorithmBresenham.dll.a"
