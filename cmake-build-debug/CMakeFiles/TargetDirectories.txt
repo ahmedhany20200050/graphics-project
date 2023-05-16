@@ -1,0 +1,3 @@
+E:/important/github_test/graphics-project/cmake-build-debug/CMakeFiles/lineAlgorithmBresenham.dir
+E:/important/github_test/graphics-project/cmake-build-debug/CMakeFiles/edit_cache.dir
+E:/important/github_test/graphics-project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
