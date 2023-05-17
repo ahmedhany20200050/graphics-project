@@ -23,6 +23,7 @@
 #include "thread"
 #include "filling.h"
 #include "rectangle.h"
+#include "ellipse.h"
 
 using namespace std;
 
@@ -431,6 +432,60 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                         performNonRecursiveFloodFillAlgorithm(hdc,x,y,mainColor,mainColor);
                         counter=0;
                     }
+                }else if(choice== "ellipse polar"){
+                    cout<<"inside ellipse polar"<<endl;
+                    if(counter==0){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x2= LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==2){
+                        x3= LOWORD(lParam);
+                        y3= HIWORD(lParam);
+                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        DrawEllipseDirectPolar(hdc,x2,y2,A,B,mainColor);
+                        counter=0;
+                    }
+                }else if(choice== "ellipse direct"){
+                    cout<<"inside ellipse direct"<<endl;
+                    if(counter==0){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x2= LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==2){
+                        x3= LOWORD(lParam);
+                        y3= HIWORD(lParam);
+                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        Draw_Cartesian_Equation(hdc,x2,y2,A,B,mainColor);
+                        counter=0;
+                    }
+                }else if(choice== "ellipse midpoint"){
+                    cout<<"inside ellipse midpoint"<<endl;
+                    if(counter==0){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x2= LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==2){
+                        x3= LOWORD(lParam);
+                        y3= HIWORD(lParam);
+                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        DrawEllipse_Bresenham(hdc,x2,y2,A,B,mainColor);
+                        counter=0;
+                    }
                 }else if(choice== "lineClippingRectangle"){
                     if(counter==0){
                         x= LOWORD(lParam);
@@ -677,7 +732,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"non convex filling");
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"recursive flood fill");
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"non recursive flood fill");
-            //todo: add ellipse
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"ellipse direct");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"ellipse polar");
+            ComboBox_AddItemData(GetDlgItem(hwnd, 100),"ellipse midpoint");
+
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"lineClippingRectangle");
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"lineClippingSquare");
             ComboBox_AddItemData(GetDlgItem(hwnd, 100),"pointClippingRectangle");
