@@ -22,6 +22,7 @@
 #include "polygonClipping.h"
 #include "thread"
 #include "filling.h"
+#include "rectangle.h"
 
 using namespace std;
 
@@ -109,6 +110,8 @@ static int lineBeginX,lineBeginY,lineEndX,lineEndY;
 static COLORREF mainColor= RGB(0,0,255);
 static bool isChanged= false;
 static int xleft,ytop,ybottom,xright;
+double radius;
+int fillingQuarter;
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
@@ -254,40 +257,110 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                         CircleBresenham(hdc,x,y,r,mainColor);
                         counter=0;
                     }
+                }else if(choice=="circle modified midpoint"){
+                    cout<<"inside circle modified midpoint\n";
+                    if(counter==0){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x2= LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        int r= ::sqrt(((x-x2)*(x-x2))+((y-y2)*(y-y2)));
+                        CircleBresenham(hdc,x,y,r,mainColor);
+                        counter=0;
+                    }
                 }else if(choice== "fill circle with lines"){
                     cout<<"inside fill circle with lines"<<endl;
                     if(counter==0){
+                        x = LOWORD(lParam);
+                        y = HIWORD(lParam);
                         counter++;
                     }else if(counter==1){
+                        x2 = LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        radius = sqrt(pow(abs(x - x2), 2) + pow(abs(y - y2), 2));
+                        CircleFasterBresenham(hdc,x,y,(int)radius,mainColor);
+                        simpleDDA(hdc,x+(int)radius,y,x-(int)radius,y,mainColor);
+                        simpleDDA(hdc,x,y-(int)radius,x,y+(int)radius,mainColor);
                         counter++;
-                    }else if(counter==2){
-                        counter=0;
+                    }else if(counter>=2){
+                        x2 = LOWORD(lParam);
+                        y2 = HIWORD(lParam);
+                        if(x2>x && x2<(x+(int)radius) && y2<y && y2>y-(int)radius){
+                            fillingQuarter=1;
+                            counter++;
+                        }else if(x2>(x-(int)radius) && x2<x && y2 <y && y2>(y-(int)radius)){
+                            fillingQuarter=2;
+                            counter++;
+                        }else if(x2>(x-(int)radius) && x2<x && y2>y && y2<(y+(int)radius)){
+                            fillingQuarter=3;
+                            counter++;
+                        }else if(x2>x && x2<(x+(int)radius) && y2>y && y2<(y+(int)radius)){
+                            fillingQuarter=4;
+                            counter++;
+                        }else{
+                            counter=0;
+                        }
+                        if(counter!=0){
+                            fillTheCircleWithLines(hdc,x,y, (int)radius,fillingQuarter,mainColor);
+                            // Or
+//                            fillTheCircleWithCircles(hdc,x,y, (int)radius,fillingQuarter,mainColor);
+                        }
                     }
                 }else if(choice== "fill circle with circles"){
                     cout<<"inside fill circle with circles"<<endl;
                     if(counter==0){
+                        x = LOWORD(lParam);
+                        y = HIWORD(lParam);
                         counter++;
                     }else if(counter==1){
+                        x2 = LOWORD(lParam);
+                        y2= HIWORD(lParam);
+                        radius = sqrt(pow(abs(x - x2), 2) + pow(abs(y - y2), 2));
+                        CircleFasterBresenham(hdc,x,y,(int)radius,mainColor);
+                        simpleDDA(hdc,x+(int)radius,y,x-(int)radius,y,mainColor);
+                        simpleDDA(hdc,x,y-(int)radius,x,y+(int)radius,mainColor);
                         counter++;
-                    }else if(counter==2){
-                        counter=0;
+                    }else if(counter>=2){
+                        x2 = LOWORD(lParam);
+                        y2 = HIWORD(lParam);
+                        if(x2>x && x2<(x+(int)radius) && y2<y && y2>y-(int)radius){
+                            fillingQuarter=1;
+                            counter++;
+                        }else if(x2>(x-(int)radius) && x2<x && y2 <y && y2>(y-(int)radius)){
+                            fillingQuarter=2;
+                            counter++;
+                        }else if(x2>(x-(int)radius) && x2<x && y2>y && y2<(y+(int)radius)){
+                            fillingQuarter=3;
+                            counter++;
+                        }else if(x2>x && x2<(x+(int)radius) && y2>y && y2<(y+(int)radius)){
+                            fillingQuarter=4;
+                            counter++;
+                        }else{
+                            counter=0;
+                        }
+                        if(counter!=0){
+//                            fillTheCircleWithLines(hdc,x,y, (int)radius,fillingQuarter,mainColor);
+                            // Or
+                            fillTheCircleWithCircles(hdc,x,y, (int)radius,fillingQuarter,mainColor);
+                        }
                     }
                 }else if(choice== "fill square with hermit"){
                     cout<<"inside fill square with hermit"<<endl;
+
                     if(counter==0){
-                        counter++;
-                    }else if(counter==1){
-                        counter++;
-                    }else if(counter==2){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        drawSquareWithHermit(hdc,x,y,mainColor);
                         counter=0;
                     }
                 }else if(choice== "fill rectangle with bezier"){
                     cout<<"inside fill rectangle with bezier"<<endl;
                     if(counter==0){
-                        counter++;
-                    }else if(counter==1){
-                        counter++;
-                    }else if(counter==2){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
+                        drawRectangleWithBezier(hdc,x,y,mainColor);
                         counter=0;
                     }
                 }else if(choice== "fill square with bezier"){
