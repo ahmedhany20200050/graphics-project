@@ -435,54 +435,55 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 }else if(choice== "ellipse polar"){
                     cout<<"inside ellipse polar"<<endl;
                     if(counter==0){
-                        x= LOWORD(lParam);
-                        y= HIWORD(lParam);
-                        counter++;
-                    }else if(counter==1){
                         x2= LOWORD(lParam);
                         y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
                         counter++;
                     }else if(counter==2){
                         x3= LOWORD(lParam);
                         y3= HIWORD(lParam);
-                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
-                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
-                        DrawEllipseDirectPolar(hdc,x2,y2,A,B,mainColor);
+                        int B=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int A=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        Draw_Polar_Iterative(hdc,x2,y2,A,B,mainColor);
                         counter=0;
                     }
                 }else if(choice== "ellipse direct"){
                     cout<<"inside ellipse direct"<<endl;
                     if(counter==0){
-                        x= LOWORD(lParam);
-                        y= HIWORD(lParam);
-                        counter++;
-                    }else if(counter==1){
                         x2= LOWORD(lParam);
                         y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
                         counter++;
                     }else if(counter==2){
                         x3= LOWORD(lParam);
                         y3= HIWORD(lParam);
-                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
-                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        int B=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int A=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
                         Draw_Cartesian_Equation(hdc,x2,y2,A,B,mainColor);
                         counter=0;
                     }
                 }else if(choice== "ellipse midpoint"){
                     cout<<"inside ellipse midpoint"<<endl;
                     if(counter==0){
-                        x= LOWORD(lParam);
-                        y= HIWORD(lParam);
-                        counter++;
-                    }else if(counter==1){
                         x2= LOWORD(lParam);
                         y2= HIWORD(lParam);
+                        counter++;
+                    }else if(counter==1){
+                        x= LOWORD(lParam);
+                        y= HIWORD(lParam);
                         counter++;
                     }else if(counter==2){
                         x3= LOWORD(lParam);
                         y3= HIWORD(lParam);
-                        int A=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
-                        int B=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
+                        //distance between two points
+                        int B=sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
+                        int A=sqrt((x3-x2)*(x3-x2)+(y3-y2)*(y3-y2));
                         DrawEllipse_Bresenham(hdc,x2,y2,A,B,mainColor);
                         counter=0;
                     }
